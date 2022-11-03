@@ -4,7 +4,7 @@
   "description": "Trumba calendar and event registrations API wrapper",
   "main": "dist/index.js",
   "scripts": {
-    "test": "./node_modules/.bin/ts-node index.ts"
+    "test": "ts-node index.ts"
   },
   "repository": {
     "type": "git",
