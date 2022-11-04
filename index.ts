@@ -1,9 +1,10 @@
 // import axios from 'axios';
 
+import ErrorCode from './ErrorCode';
 import TrumbaError from './TrumbaError';
 
 const axios = require('axios');
-const { default: ErrorCode } = require('./ErrorCode');
+// const { default: ErrorCode } = require('./ErrorCode');
 const auth = require('./config/auth.json');
 
 type TrumbaAuth = {
@@ -38,6 +39,29 @@ type TrumbaAttendeeQuery = {
 }
 
 
+const trumbaCodeMessageMap: {[index: string]: ErrorCode}  = {
+  'webnamenotfound': ErrorCode.WebNameNotFound,
+  'accessdenied': ErrorCode.AccessDenied,
+  'unauthorized': ErrorCode.Unauthorized,
+  'invalidemail': ErrorCode.InvalidEmail,
+  'invalidphone': ErrorCode.InvalidPhone,
+  'notavailable': ErrorCode.NotAvailable,
+  'notsuppported': ErrorCode.NotSupported,
+  'beforestart': ErrorCode.BeforeStart,
+  'pastdeadline': ErrorCode.RegistrationDeadlineHasPassed,
+  'eventcancelled': ErrorCode.EventCancelled,
+  'eventfull': ErrorCode.EventFull,
+  'eventnotfound': ErrorCode.EventNotFound,
+  'missingidentity': ErrorCode.MissingIdentity,
+  'requiredvalue': ErrorCode.RequiredValue,
+  'invalidvalue': ErrorCode.InvalidValue,
+  'incompatibleforms': ErrorCode.IncompatibleForms,
+  'incompatiblepayments': ErrorCode.IncompatiblePayments,
+  'notregistered': ErrorCode.NotRegistered,
+  'alreadyregistered': ErrorCode.AlreadyRegistered,
+}
+
+
 const getEvents = async (webName: string) => {
   try {
   const response = await axios.get(`http://www.trumba.com/calendars/${webName}.json`);
@@ -45,22 +69,25 @@ const getEvents = async (webName: string) => {
   } catch (err) {
     // Get response data
     const responseData = (err as any)?.response?.data;
-    console.log(responseData);
+    
+
+    // we do this because for some reason response.data doesn't format properly
+    if ((err as any)?.response?.statusText === 'Not Found') {
+      throw new TrumbaError({
+        message: 'The web name was not found.',
+        code: ErrorCode.WebNameNotFound,
+      });
+    }
+
     if (!responseData) {
       // No information on the error
       // (this is an unknown error)
-      throw new Error('Unknown error...or something');
+      throw new Error('Unknown error');
     }
-
-    // iterate through the errors
-    let message = 'We ran into some errors while registering for the event: ';
-    for (let i = 0; i < responseData.length; i += 1) {
-      const {errorMessage } = responseData[i];
-      message += errorMessage + ', '
-    }
-
-    // Throw a TrumbaError
-    throw new TrumbaError({message, code: ErrorCode.ManyErrors});
+    throw new TrumbaError({
+      message: responseData[responseData.length -1 ].errorMessage,
+      code: trumbaCodeMessageMap[responseData[responseData.length -1 ]],
+    });
   }
 
 }
@@ -104,32 +131,15 @@ const registerForEvent = async (registration: TrumbaRegistration, auth: TrumbaAu
     if (!responseData) {
       // No information on the error
       // (this is an unknown error)
-      throw new Error('Unknown error...or something');
+      throw new Error('Unknown error');
     }
 
 
-    // iterate through the errors
-    let message = 'We ran into some errors while registering for the event: ';
-    for (let i = 0; i < responseData.length; i += 1) {
-      const {errorMessage } = responseData[i];
-      message += errorMessage + ', '
+    throw new TrumbaError({
+          message: responseData[responseData.length -1 ].errorMessage,
+          code: trumbaCodeMessageMap[responseData[responseData.length -1 ]],
+        });
     }
-
-    // Throw a TrumbaError
-    throw new TrumbaError({message, code: ErrorCode.ManyErrors});
-
-    // if (
-    //   responseData.length === 2
-    //   && responseData[1].errorCode === 'pastdeadline'
-    // ) {
-    //   throw new TrumbaError({
-    //     message: 'You can\'t register for this event because the registration deadline has passed.',
-    //     code: ErrorCode.RegistrationDeadlineHasPassed,
-    //   });
-    // }
-    
-    
-  }
 }
 
 const getAttendees = async (query: TrumbaAttendeeQuery, auth: TrumbaAuth) => {
@@ -165,18 +175,13 @@ const getAttendees = async (query: TrumbaAttendeeQuery, auth: TrumbaAuth) => {
     if (!responseData) {
       // No information on the error
       // (this is an unknown error)
-      throw new Error('Unknown error...or something');
+      throw new Error('Unknown error');
     }
 
-    // iterate through the errors
-    let message = 'We ran into some errors while registering for the event: ';
-    for (let i = 0; i < responseData.length; i += 1) {
-      const {errorMessage } = responseData[i];
-      message += errorMessage + ', '
-    }
-
-    // Throw a TrumbaError
-    throw new TrumbaError({message, code: ErrorCode.ManyErrors});
+    throw new TrumbaError({
+      message: responseData[responseData.length -1 ].errorMessage,
+      code: trumbaCodeMessageMap[responseData[responseData.length -1 ]],
+    });
   }
 }
 
@@ -200,9 +205,7 @@ const query = {
 
 getEvents(webName).then(response => {
   console.log(response);
-}).catch(error => {
-  console.log(error);
-});
+})
 registerForEvent(registration, auth).then(response => {
   console.log(response);
 }).catch(error => {
