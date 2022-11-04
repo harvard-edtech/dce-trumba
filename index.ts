@@ -186,8 +186,14 @@ const getAttendees = async (query: TrumbaAttendeeQuery, auth: TrumbaAuth) => {
 }
 
 
+const badRegistration: TrumbaRegistration = {
+  eventId: 163118536,
+  name: "Yenny",
+  email: "lerchow@gmail.com",
+  status: "registered",
+};
 
-const registration: TrumbaRegistration = {
+const goodRegistration: TrumbaRegistration = {
   eventId: 163114184,
   name: "Yenny",
   email: "lerchow@gmail.com",
@@ -206,11 +212,9 @@ const query = {
 getEvents(webName).then(response => {
   console.log(response);
 })
-registerForEvent(registration, auth).then(response => {
+registerForEvent(goodRegistration, auth).then(response => {
   console.log(response);
-}).catch(error => {
-  console.log(error);
-});
+})
 getAttendees(query, auth).then(response => {
   console.log(response);
 })
