@@ -1,14 +1,13 @@
 /**
  * List of custom Trumba error codes
+ * @author Yuen Ler Chow
  * @author Gabe Abrams
  */
 
 // Highest error is TRB2
 
-
 enum ErrorCode {
   // Registration errors
-
   WebNameNotFound = 'TRB1',
   AccessDenied = 'TRB2',
   Unauthorized = 'TRB3',
@@ -28,7 +27,6 @@ enum ErrorCode {
   IncompatiblePayments = 'TRB17',
   NotRegistered = 'TRB18',
   AlreadyRegistered = 'TRB19',
-
 }
 
 export default ErrorCode;

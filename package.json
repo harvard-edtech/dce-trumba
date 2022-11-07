@@ -2,9 +2,11 @@
   "name": "dce-trumba",
   "version": "1.0.0",
   "description": "Trumba calendar and event registrations API wrapper",
-  "main": "dist/index.js",
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
   "scripts": {
-    "test": "ts-node index.ts"
+    "build": "tsc --project ./tsconfig.json && rm -rf ./docBuilder/template;cp -r ./node_modules/docdash ./docBuilder/template; node ./docBuilder/updateBuilder.js;rm -rf ./docs;./node_modules/.bin/jsdoc -c ./docBuilder/jsdocConfig.json",
+    "test": "ts-node sandbox.ts"
   },
   "repository": {
     "type": "git",
@@ -35,7 +37,11 @@
     "eslint-plugin-jsx-a11y": "^6.6.1",
     "eslint-plugin-react": "^7.31.10",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "ts-node": "^10.9.1"
+    "ts-node": "^10.9.1",
+    "typescript": "^4.8.4",
+    "docdash": "^1.2.0",
+    "doctrine": "^3.0.0",
+    "jsdoc": "^3.6.5"
   },
   "homepage": "https://github.com/harvard-edtech/dce-trumba#readme"
 }
