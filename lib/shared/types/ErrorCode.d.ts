@@ -4,6 +4,7 @@
  * @author Gabe Abrams
  */
 declare enum ErrorCode {
+    UnknownError = "TRB0",
     WebNameNotFound = "TRB1",
     AccessDenied = "TRB2",
     Unauthorized = "TRB3",

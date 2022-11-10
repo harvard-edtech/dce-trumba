@@ -8,6 +8,7 @@
 
 enum ErrorCode {
   // Registration errors
+  UnknownError = 'TRB0',
   WebNameNotFound = 'TRB1',
   AccessDenied = 'TRB2',
   Unauthorized = 'TRB3',

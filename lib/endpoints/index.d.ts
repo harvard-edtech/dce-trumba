@@ -4,33 +4,9 @@
  * @author Gabe Abrams
  * @namespace api
  */
-declare type TrumbaAuth = {
-    username: string;
-    password: string;
-};
-declare type FormAnswer = {
-    fieldID: string;
-    fieldValue: string;
-};
-declare type TrumbaRegistration = {
-    eventId: number;
-    name: string;
-    email: string;
-    status: string;
-    eventTitle?: string;
-    startDateTime?: Date;
-    endDateTime?: Date;
-    startDateTimeLocal?: Date;
-    endDateTimeLocal?: Date;
-    formAnswers?: FormAnswer[];
-};
-declare type TrumbaAttendeeQuery = {
-    webName: string;
-    email: string;
-    status?: string;
-    startDate?: Date;
-    endDate?: Date;
-};
+import TrumbaAuth from '../shared/types/TrumbaAuth';
+import TrumbaRegistration from '../shared/types/TrumbaRegistration';
+import TrumbaAttendeeQuery from '../shared/types/TrumbaAttendeeQuery';
 /**
  * Initialize Trumba API
  * @ignore

@@ -10,69 +10,15 @@ import axios from 'axios';
 
 // Import shared types
 import ErrorCode from '../shared/types/ErrorCode';
+import TrumbaAuth from '../shared/types/TrumbaAuth';
+import TrumbaRegistration from '../shared/types/TrumbaRegistration';
+import TrumbaAttendeeQuery from '../shared/types/TrumbaAttendeeQuery';
+import trumbaCodeMessageMap from '../shared/constants/trumbaCodeMessageMap';
+import TrumbaEvent from '../shared/types/TrumbaEvent';
 
 // Import custom error
 import TrumbaError from '../shared/classes/TrumbaError';
 
-// TODO: move this into /shared/types
-type TrumbaAuth = {
-  username: string;
-  password: string;
-};
-
-// TODO: move this into /shared/types
-type FormAnswer = {
-  fieldID: string;
-  fieldValue: string;
-};
-
-// TODO: move this into /shared/types
-type TrumbaRegistration = {
-  eventId: number;
-  name: string;
-  email: string;
-  status: string;
-  eventTitle?: string;
-  startDateTime?: Date;
-  endDateTime?: Date;
-  startDateTimeLocal?: Date;
-  endDateTimeLocal?: Date;
-  formAnswers?: FormAnswer[];
-}
-
-// TODO: move this into /shared/types
-type TrumbaAttendeeQuery = {
-  webName: string;
-  email: string;
-  status?: string;
-  startDate?: Date;
-  endDate?: Date;
-}
-
-// TODO: move this into /shared/constants
-const trumbaCodeMessageMap: {
-  [index: string]: ErrorCode
-} = {
-  webnamenotfound: ErrorCode.WebNameNotFound,
-  accessdenied: ErrorCode.AccessDenied,
-  unauthorized: ErrorCode.Unauthorized,
-  invalidemail: ErrorCode.InvalidEmail,
-  invalidphone: ErrorCode.InvalidPhone,
-  notavailable: ErrorCode.NotAvailable,
-  notsuppported: ErrorCode.NotSupported,
-  beforestart: ErrorCode.BeforeStart,
-  pastdeadline: ErrorCode.RegistrationDeadlineHasPassed,
-  eventcancelled: ErrorCode.EventCancelled,
-  eventfull: ErrorCode.EventFull,
-  eventnotfound: ErrorCode.EventNotFound,
-  missingidentity: ErrorCode.MissingIdentity,
-  requiredvalue: ErrorCode.RequiredValue,
-  invalidvalue: ErrorCode.InvalidValue,
-  incompatibleforms: ErrorCode.IncompatibleForms,
-  incompatiblepayments: ErrorCode.IncompatiblePayments,
-  notregistered: ErrorCode.NotRegistered,
-  alreadyregistered: ErrorCode.AlreadyRegistered,
-};
 
 /**
  * Initialize Trumba API
@@ -91,7 +37,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @param webName describe what this param is
    * @returns describe the return value {@link PUT_LINK_TO_TRUMBA_DOCS}
    */
-  const listEvents = async (webName: string) => {
+  const listEvents = async (webName: string) : Promise<TrumbaEvent[]> => {
     try {
       const response = await axios.get(`http://www.trumba.com/calendars/${webName}.json`);
       return response.data;
@@ -111,7 +57,10 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       if (!responseData) {
         // No information on the error
         // (this is an unknown error)
-        throw new Error('Unknown error');
+        throw new TrumbaError({
+          message: 'An unknown error occurred.',
+          code: ErrorCode.UnknownError,
+        });
       }
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
@@ -159,7 +108,10 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       if (!responseData) {
         // No information on the error
         // (this is an unknown error)
-        throw new Error('Unknown error');
+        throw new TrumbaError({
+          message: 'An unknown error occurred.',
+          code: ErrorCode.UnknownError,
+        });
       }
 
       throw new TrumbaError({
@@ -170,7 +122,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
   }
 
   // TODO: add JSDoc
-  const listAttendees = async (query: TrumbaAttendeeQuery) => {
+  const listAttendees = async (query: TrumbaAttendeeQuery): Promise<TrumbaAttendee[]> => {
     const {
       webName,
       email,
@@ -200,7 +152,10 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       if (!responseData) {
         // No information on the error
         // (this is an unknown error)
-        throw new Error('Unknown error');
+        throw new TrumbaError({
+          message: 'An unknown error occurred.',
+          code: ErrorCode.UnknownError,
+        });
       }
 
       throw new TrumbaError({
