@@ -4,9 +4,12 @@
  * @author Gabe Abrams
  * @namespace api
  */
-import TrumbaAuth from '../shared/types/TrumbaAuth';
-import TrumbaRegistration from '../shared/types/TrumbaRegistration';
-import TrumbaAttendeeQuery from '../shared/types/TrumbaAttendeeQuery';
+import TrumbaAuth from '../types/TrumbaAuth';
+import AttendeeQuery from '../shared/types/AttendeeQuery';
+import TrumbaEvent from '../types/TrumbaEvent';
+import TrumbaAttendee from '../types/TrumbaAttendee';
+import Registration from '../shared/types/Registration';
+import EventFilter from '../shared/types/EventFilter';
 /**
  * Initialize Trumba API
  * @ignore
@@ -14,8 +17,8 @@ import TrumbaAttendeeQuery from '../shared/types/TrumbaAttendeeQuery';
  * @returns initialized copy of the Trumba API
  */
 declare const initTrumbaAPI: (auth: TrumbaAuth) => {
-    listEvents: (webName: string) => Promise<any>;
-    listAttendees: (query: TrumbaAttendeeQuery) => Promise<any>;
-    registerForEvent: (registration: TrumbaRegistration) => Promise<any>;
+    listEvents: (webName: string, filter: EventFilter) => Promise<TrumbaEvent[]>;
+    listAttendees: (query: AttendeeQuery) => Promise<TrumbaAttendee[]>;
+    registerForEvent: (registration: Registration) => Promise<TrumbaAttendee>;
 };
 export default initTrumbaAPI;

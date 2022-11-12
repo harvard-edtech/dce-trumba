@@ -1,4 +1,4 @@
-type TrumbaAttendeeQuery = {
+type AttendeeQuery = {
   webName: string;
   email: string;
   status?: string;
@@ -6,4 +6,4 @@ type TrumbaAttendeeQuery = {
   endDate?: Date;
 }
 
-export default TrumbaAttendeeQuery;
+export default AttendeeQuery;

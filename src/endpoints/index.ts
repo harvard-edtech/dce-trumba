@@ -10,14 +10,17 @@ import axios from 'axios';
 
 // Import shared types
 import ErrorCode from '../shared/types/ErrorCode';
-import TrumbaAuth from '../shared/types/TrumbaAuth';
-import TrumbaRegistration from '../shared/types/TrumbaRegistration';
-import TrumbaAttendeeQuery from '../shared/types/TrumbaAttendeeQuery';
+import TrumbaAuth from '../types/TrumbaAuth';
+import AttendeeQuery from '../shared/types/AttendeeQuery';
 import trumbaCodeMessageMap from '../shared/constants/trumbaCodeMessageMap';
-import TrumbaEvent from '../shared/types/TrumbaEvent';
+import TrumbaEvent from '../types/TrumbaEvent';
+import TrumbaAttendee from '../types/TrumbaAttendee';
+import Registration from '../shared/types/Registration';
+
 
 // Import custom error
 import TrumbaError from '../shared/classes/TrumbaError';
+import EventFilter from '../shared/types/EventFilter';
 
 
 /**
@@ -27,19 +30,65 @@ import TrumbaError from '../shared/classes/TrumbaError';
  * @returns initialized copy of the Trumba API
  */
 const initTrumbaAPI = (auth: TrumbaAuth) => {
-  // TODO: finish this jsdoc:
   /**
-   * Describe the function here
+   * Lists all events on the calendar that satisfy the provided filters
    * @author Yuen Ler Chow
    * @instance
    * @memberof api
    * @method listEvents
-   * @param webName describe what this param is
-   * @returns describe the return value {@link PUT_LINK_TO_TRUMBA_DOCS}
+   * @param webName unique identifier for the calendar
+   * @param {object} filter object containing all arguments
+   * @param {number} filter.numEvents number of events to return
+   * @param {number[]} filter.eventIds list of event ids to return
+   * @param {Date} filter.startDate start date of events to return
+   * @param {Date} filter.endDate end date of events to return
+   * @param {number} filter.months number of months to return
+   * @param {number} filter.weeks number of weeks to return
+   * @param {number} filter.days number of days to return
+   * @param {number} filter.previousWeeks number of previous weeks to return
+   * @param {string} filter.filterView filter view to use
+   * @param {string} filter.search search query
+   * @param {boolean} filter.html whether to return HTML
+   * @param {boolean} filter.customNotes whether to return custom notes
+   *   the source course
+   * @returns a list of information for each event {@link https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S}
    */
-  const listEvents = async (webName: string) : Promise<TrumbaEvent[]> => {
+  const listEvents = async (webName: string, filter: EventFilter) : Promise<TrumbaEvent[]> => {
     try {
-      const response = await axios.get(`http://www.trumba.com/calendars/${webName}.json`);
+      // destructuring filter
+      const { 
+        numEvents,
+        eventIds,
+        startDate,
+        endDate,
+        months,
+        weeks,
+        days,
+        previousWeeks,
+        filterView,
+        search,
+        html,
+        customNotes } = filter;
+
+
+      const params = {
+        events: numEvents,
+        eventid: eventIds.length == 1 ? eventIds[0] : undefined,
+        eventids: eventIds.length > 1 ? eventIds.join(',') : undefined,
+        startdate: startDate.toISOString(),
+        enddate: endDate.toISOString(),
+        months,
+        weeks,
+        days,
+        previousweeks: previousWeeks,
+        filterview: filterView,
+        search,
+        html,
+        customnotes: customNotes,
+      }
+      const response = await axios.get(`http://www.trumba.com/calendars/${webName}.json`,
+      {params}
+      );
       return response.data;
     } catch (err) {
       // Get response data
@@ -69,18 +118,34 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     }
   };
 
-  // TODO: add JSDoc
-  const registerForEvent = async (registration: TrumbaRegistration) => {
+   /**
+   * Registers a user for an event on the calendar
+   * @author Yuen Ler Chow
+   * @instance
+   * @memberof api
+   * @method registerForEvent
+   * @param {object} registration object containing registration information such as event id, name, email, and status
+   * @param {number} registration.eventId id of the event to register for
+   * @param {string} registration.name name of the person registering
+   * @param {string} registration.email email of the person registering
+   * @param {string} registration.status status of the person registering
+   * @param {string} registration.eventTitle title of the event
+   * @param {string} registration.startDateTime start date and time of the event
+   * @param {string} registration.endDateTime end date and time of the event
+   * @param {string} registration.startDateTimeLocal end date and time of the event in local time
+   * @param {string} registration.endDateTimeLocal end date and time of the event in local time
+   * @param {FormAnswer[]} registration.formAnswers answers to the form questions
+   * 
+   * 
+   * @returns object containing attendee and event information {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees}
+   */
+  const registerForEvent = async (registration: Registration) : Promise<TrumbaAttendee> => {
     const {
       eventId,
       name,
       email,
       status,
       eventTitle,
-      startDateTime,
-      endDateTime,
-      startDateTimeLocal,
-      endDateTimeLocal,
       formAnswers,
     } = registration;
 
@@ -90,10 +155,6 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       email,
       status,
       eventTitle,
-      startDateTime: startDateTime?.toISOString(),
-      endDateTime: endDateTime?.toISOString(),
-      startDateTimeLocal: startDateTimeLocal?.toISOString(),
-      endDateTimeLocal: endDateTimeLocal?.toISOString(),
       formAnswers,
     };
 
@@ -101,7 +162,19 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       const response = await axios.put(
         'https://www.trumba.com/api/v2/attendees', request, { auth },
       );
-      return response.data;
+      const attendee: TrumbaAttendee = {
+        eventId: response.data.eventID,
+        name: response.data.name,
+        email: response.data.email,
+        status: response.data.status,
+        eventTitle: response.data.eventTitle,
+        startDateTime: new Date(response.data.startDateTime),
+        endDateTime: new Date(response.data.endDateTime),
+        startDateTimeLocal: new Date(response.data.startDateTimeLocal),
+        endDateTimeLocal: new Date(response.data.endDateTimeLocal),
+        formAnswers: response.data.formAnswers,
+      };
+      return attendee;
     } catch (err) {
       // Get response data
       const responseData = (err as any)?.response?.data;
@@ -121,8 +194,16 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     }
   }
 
-  // TODO: add JSDoc
-  const listAttendees = async (query: TrumbaAttendeeQuery): Promise<TrumbaAttendee[]> => {
+  /**
+   * Lists all events a user is registered for on the calendar
+   * @author Yuen Ler Chow
+   * @instance
+   * @memberof api
+   * @method listAttendees
+   * @param query object containing query information such as web name and email
+   * @returns list of attendee objects {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/listAttendee}
+   */
+  const listAttendees = async (query: AttendeeQuery): Promise<TrumbaAttendee[]> => {
     const {
       webName,
       email,

@@ -1,15 +1,11 @@
-import FormAnswer from './FormAnswer';
+import FormAnswer from '../../types/TrumbaFormAnswer';
 
 type TrumbaAttendee = {
-  eventID: number;
+  eventId: number;
   name: string;
   email: string;
   status: 'registered' | 'declined';
   eventTitle?: string;
-  startDateTime?: string;
-  endDateTime?: string;
-  startDateTimeLocal?: string;
-  endDateTimeLocal?: string;
   formAnswers?: FormAnswer[];
 };
 
