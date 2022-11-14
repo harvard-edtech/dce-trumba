@@ -3,7 +3,7 @@
  * @author Yuen Ler Chow
  * @author Gabe Abrams
  */
-declare enum ErrorCode {
+declare enum TrumbaErrorCode {
     UnknownError = "TRB0",
     WebNameNotFound = "TRB1",
     AccessDenied = "TRB2",
@@ -25,4 +25,4 @@ declare enum ErrorCode {
     NotRegistered = "TRB18",
     AlreadyRegistered = "TRB19"
 }
-export default ErrorCode;
+export default TrumbaErrorCode;

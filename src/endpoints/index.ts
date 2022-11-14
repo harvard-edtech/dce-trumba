@@ -9,91 +9,78 @@
 import axios from 'axios';
 
 // Import shared types
-import ErrorCode from '../shared/types/ErrorCode';
+import TrumbaErrorCode from '../types/TrumbaErrorCode';
+import TrumbaAuth from '../types/TrumbaAuth';
+import TrumbaAttendeeQuery from '../types/TrumbaAttendeeQuery';
+import TrumbaEvent from '../types/TrumbaEvent';
+import TrumbaAttendee from '../types/TrumbaAttendee';
+import TrumbaRegistration from '../types/TrumbaRegistration';
+import TrumbaEventFilter from '../types/TrumbaEventFilter';
+
+// Import shared constants
+import TRUMBA_CODE_MESSAGE_MAP from '../shared/constants/TRUMBA_CODE_MESSAGE_MAP';
 
 // Import custom error
 import TrumbaError from '../shared/classes/TrumbaError';
 
-// TODO: move this into /shared/types
-type TrumbaAuth = {
-  username: string;
-  password: string;
-};
-
-// TODO: move this into /shared/types
-type FormAnswer = {
-  fieldID: string;
-  fieldValue: string;
-};
-
-// TODO: move this into /shared/types
-type TrumbaRegistration = {
-  eventId: number;
-  name: string;
-  email: string;
-  status: string;
-  eventTitle?: string;
-  startDateTime?: Date;
-  endDateTime?: Date;
-  startDateTimeLocal?: Date;
-  endDateTimeLocal?: Date;
-  formAnswers?: FormAnswer[];
-}
-
-// TODO: move this into /shared/types
-type TrumbaAttendeeQuery = {
-  webName: string;
-  email: string;
-  status?: string;
-  startDate?: Date;
-  endDate?: Date;
-}
-
-// TODO: move this into /shared/constants
-const trumbaCodeMessageMap: {
-  [index: string]: ErrorCode
-} = {
-  webnamenotfound: ErrorCode.WebNameNotFound,
-  accessdenied: ErrorCode.AccessDenied,
-  unauthorized: ErrorCode.Unauthorized,
-  invalidemail: ErrorCode.InvalidEmail,
-  invalidphone: ErrorCode.InvalidPhone,
-  notavailable: ErrorCode.NotAvailable,
-  notsuppported: ErrorCode.NotSupported,
-  beforestart: ErrorCode.BeforeStart,
-  pastdeadline: ErrorCode.RegistrationDeadlineHasPassed,
-  eventcancelled: ErrorCode.EventCancelled,
-  eventfull: ErrorCode.EventFull,
-  eventnotfound: ErrorCode.EventNotFound,
-  missingidentity: ErrorCode.MissingIdentity,
-  requiredvalue: ErrorCode.RequiredValue,
-  invalidvalue: ErrorCode.InvalidValue,
-  incompatibleforms: ErrorCode.IncompatibleForms,
-  incompatiblepayments: ErrorCode.IncompatiblePayments,
-  notregistered: ErrorCode.NotRegistered,
-  alreadyregistered: ErrorCode.AlreadyRegistered,
-};
-
 /**
  * Initialize Trumba API
  * @ignore
- * @param auth Trumba auth credentials
+ * @param {TrumbaAuth} auth Trumba auth credentials
  * @returns initialized copy of the Trumba API
  */
 const initTrumbaAPI = (auth: TrumbaAuth) => {
-  // TODO: finish this jsdoc:
   /**
-   * Describe the function here
+   * Lists all events on the calendar that satisfy the provided filters
    * @author Yuen Ler Chow
    * @instance
    * @memberof api
    * @method listEvents
-   * @param webName describe what this param is
-   * @returns describe the return value {@link PUT_LINK_TO_TRUMBA_DOCS}
+   * @param {string} webName unique identifier for the calendar
+   * @param {TrumbaEventFilter} [filter] EventFilter for narrowing the results
+   *   of the list events search
+   * @returns a list of information for each event {@link https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S}
    */
-  const listEvents = async (webName: string) => {
+  const listEvents = async (
+    webName: string,
+    filter?: TrumbaEventFilter,
+  ) : Promise<TrumbaEvent[]> => {
     try {
-      const response = await axios.get(`http://www.trumba.com/calendars/${webName}.json`);
+      // destructuring filter
+      const { 
+        numEvents,
+        eventIds,
+        startDate,
+        endDate,
+        months,
+        weeks,
+        days,
+        previousWeeks,
+        filterView,
+        search,
+        html,
+        customNotes,
+      } = (filter ?? {});
+
+      const params = {
+        events: numEvents,
+        eventid: eventIds.length == 1 ? eventIds[0] : undefined,
+        eventids: eventIds.length > 1 ? eventIds.join(',') : undefined,
+        startdate: startDate.toISOString(),
+        enddate: endDate.toISOString(),
+        months,
+        weeks,
+        days,
+        previousweeks: previousWeeks,
+        filterview: filterView,
+        search,
+        html,
+        customnotes: customNotes,
+      }
+      const response = await axios.get(
+        `http://www.trumba.com/calendars/${webName}.json`,
+        { params },
+      );
       return response.data;
     } catch (err) {
       // Get response data
@@ -104,34 +91,44 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       if ((err as any)?.response?.statusText === 'Not Found') {
         throw new TrumbaError({
           message: 'The web name was not found.',
-          code: ErrorCode.WebNameNotFound,
+          code: TrumbaErrorCode.WebNameNotFound,
         });
       }
 
       if (!responseData) {
         // No information on the error
         // (this is an unknown error)
-        throw new Error('Unknown error');
+        throw new TrumbaError({
+          message: 'An unknown error occurred.',
+          code: TrumbaErrorCode.UnknownError,
+        });
       }
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
-        code: trumbaCodeMessageMap[responseData[responseData.length - 1]],
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
       });
     }
   };
 
-  // TODO: add JSDoc
-  const registerForEvent = async (registration: TrumbaRegistration) => {
+   /**
+   * Registers a user for an event on the calendar
+   * @author Yuen Ler Chow
+   * @instance
+   * @memberof api
+   * @method registerForEvent
+   * @param {TrumbaRegistration} registration object containing registration
+   *   information
+   * @returns object containing attendee and event information {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees}
+   */
+  const registerForEvent = async (
+    registration: TrumbaRegistration,
+  ): Promise<TrumbaAttendee> => {
     const {
       eventId,
       name,
       email,
       status,
       eventTitle,
-      startDateTime,
-      endDateTime,
-      startDateTimeLocal,
-      endDateTimeLocal,
       formAnswers,
     } = registration;
 
@@ -141,10 +138,6 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       email,
       status,
       eventTitle,
-      startDateTime: startDateTime?.toISOString(),
-      endDateTime: endDateTime?.toISOString(),
-      startDateTimeLocal: startDateTimeLocal?.toISOString(),
-      endDateTimeLocal: endDateTimeLocal?.toISOString(),
       formAnswers,
     };
 
@@ -152,25 +145,51 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       const response = await axios.put(
         'https://www.trumba.com/api/v2/attendees', request, { auth },
       );
-      return response.data;
+      const attendee: TrumbaAttendee = {
+        eventId: response.data.eventID,
+        name: response.data.name,
+        email: response.data.email,
+        status: response.data.status,
+        eventTitle: response.data.eventTitle,
+        startDateTime: new Date(response.data.startDateTime),
+        endDateTime: new Date(response.data.endDateTime),
+        startDateTimeLocal: new Date(response.data.startDateTimeLocal),
+        endDateTimeLocal: new Date(response.data.endDateTimeLocal),
+        formAnswers: response.data.formAnswers,
+      };
+      return attendee;
     } catch (err) {
       // Get response data
       const responseData = (err as any)?.response?.data;
       if (!responseData) {
         // No information on the error
         // (this is an unknown error)
-        throw new Error('Unknown error');
+        throw new TrumbaError({
+          message: 'An unknown error occurred.',
+          code: TrumbaErrorCode.UnknownError,
+        });
       }
 
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
-        code: trumbaCodeMessageMap[responseData[responseData.length - 1]],
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
       });
     }
   }
 
-  // TODO: add JSDoc
-  const listAttendees = async (query: TrumbaAttendeeQuery) => {
+  /**
+   * Lists all events a user is registered for on the calendar
+   * @author Yuen Ler Chow
+   * @instance
+   * @memberof api
+   * @method listAttendees
+   * @param {TrumbaAttendeeQuery} query object containing query information such
+   *   as web name and email
+   * @returns list of attendee objects {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/listAttendee}
+   */
+  const listAttendees = async (
+    query: TrumbaAttendeeQuery,
+  ): Promise<TrumbaAttendee[]> => {
     const {
       webName,
       email,
@@ -200,12 +219,15 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       if (!responseData) {
         // No information on the error
         // (this is an unknown error)
-        throw new Error('Unknown error');
+        throw new TrumbaError({
+          message: 'An unknown error occurred.',
+          code: TrumbaErrorCode.UnknownError,
+        });
       }
 
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
-        code: trumbaCodeMessageMap[responseData[responseData.length - 1]],
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
       });
     }
   };

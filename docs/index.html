@@ -27,7 +27,7 @@
 
 <nav style="border-right: 2px solid #ccc; padding-bottom: 25px;" >
     
-    <h2><a style="font-size: 30px;" href="index.html">Trumba API</a></h2><h3>Endpoint Functions</h3><ul><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#listEvents">listEvents</a></li></ul></li></ul>
+    <h2><a style="font-size: 30px;" href="index.html">Trumba API</a></h2><h3>Endpoint Functions</h3><ul><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#listAttendees">listAttendees</a></li><li data-type='method'><a href="api.html#listEvents">listEvents</a></li><li data-type='method'><a href="api.html#registerForEvent">registerForEvent</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -56,8 +56,40 @@
 
 
     <section class="readme usertext">
-        <article><h1>TITLE HERE</h1>
-<p>PUT CONTENT HERE</p></article>
+        <article><h1>Trumba</h1>
+<p>First create an auth.json file:</p>
+<p>{
+&quot;username&quot;: &quot;INSERT_EMAIL_HERE&quot;,
+&quot;password&quot;: &quot;INSERT_PASSWORD_HERE&quot;
+}</p>
+<p>First initialize the api:</p>
+<p>const auth = require('auth.json');
+const trumbaAPI = initTrumbaAPI(auth);</p>
+<p>To list events:</p>
+<p>const webName = 'INSERT_WEBNAME_HERE'
+trumbaAPI.listEvents(webName).then(response =&gt; {
+console.log(response);
+})</p>
+<p>To register a user for an event:</p>
+<p>const registration = {
+eventId: 123456789,
+name: &quot;Bob&quot;,
+email: &quot;bob@example.com&quot;,
+status: &quot;registered&quot;,
+};</p>
+<p>trumbaAPI.registerForEvent(registration).then(response =&gt; {
+console.log(response);
+})</p>
+<p>To list all events a user is registered for:</p>
+<p>const query = {
+webName: 'INSERT_WEBNAME_HERE
+email: 'bob@example.com',
+}</p>
+<p>trumbaAPI.listAttendees(query).then(response =&gt; {
+console.log(response);
+})</p>
+<h2>Special Thanks</h2>
+<p>This project would not be possible without the enormous amount of development work by <a href="https://github.com/yuenler">Yuen Ler Chow</a>.</p></article>
     </section>
 
 

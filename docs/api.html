@@ -27,7 +27,7 @@
 
 <nav style="border-right: 2px solid #ccc; padding-bottom: 25px;" >
     
-    <h2><a style="font-size: 30px;" href="index.html">Trumba API</a></h2><h3>Endpoint Functions</h3><ul><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#listEvents">listEvents</a></li></ul></li></ul>
+    <h2><a style="font-size: 30px;" href="index.html">Trumba API</a></h2><h3>Endpoint Functions</h3><ul><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#listAttendees">listAttendees</a></li><li data-type='method'><a href="api.html#listEvents">listEvents</a></li><li data-type='method'><a href="api.html#registerForEvent">registerForEvent</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -137,7 +137,7 @@
 
     
 
-    <h4 class="name" id="listEvents"><span class="type-signature"></span>listEvents<span class="signature">(webName)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="listAttendees"><span class="type-signature"></span>listAttendees<span class="signature">(query)</span><span class="type-signature"></span></h4>
 
     
 
@@ -149,7 +149,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line84">line 84</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line189">line 189</a>
     </li></ul></dd>
     
 
@@ -196,7 +196,7 @@
 
 
 <div class="description usertext">
-    Describe the function here
+    Lists all events a user is registered for on the calendar
 </div>
 
 
@@ -234,7 +234,7 @@
 
         <tr>
             
-                <td class="name"><code>webName</code></td>
+                <td class="name"><code>query</code></td>
             
 
             <td class="type">
@@ -245,7 +245,7 @@
 
             
 
-            <td class="description last">describe what this param is</td>
+            <td class="description last">object containing query information such as web name and email</td>
         </tr>
 
     
@@ -271,7 +271,347 @@
 
         
 <div class="param-desc">
-    describe the return value PUT_LINK_TO_TRUMBA_DOCS
+    list of attendee objects <a href="https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/listAttendee">https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/listAttendee</a>
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="listEvents"><span class="type-signature"></span>listEvents<span class="signature">(webName, filter<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line63">line 63</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Yuen Ler Chow</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Lists all events on the calendar that satisfy the provided filters
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>webName</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">unique identifier for the calendar</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>filter</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">TrumbaEventFilter</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last">EventFilter for narrowing the results of the list events
+  search</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a list of information for each event <a href="https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S">https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S</a>
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="registerForEvent"><span class="type-signature"></span>registerForEvent<span class="signature">(registration)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line127">line 127</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Yuen Ler Chow</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Registers a user for an event on the calendar
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>registration</code></td>
+            
+
+            <td class="type">
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">object containing registration information</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    object containing attendee and event information <a href="https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees">https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees</a>
 </div>
 
 

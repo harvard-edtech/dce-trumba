@@ -6,8 +6,9 @@
 
 // Highest error is TRB2
 
-enum ErrorCode {
+enum TrumbaErrorCode {
   // Registration errors
+  UnknownError = 'TRB0',
   WebNameNotFound = 'TRB1',
   AccessDenied = 'TRB2',
   Unauthorized = 'TRB3',
@@ -29,4 +30,4 @@ enum ErrorCode {
   AlreadyRegistered = 'TRB19',
 }
 
-export default ErrorCode;
+export default TrumbaErrorCode;
