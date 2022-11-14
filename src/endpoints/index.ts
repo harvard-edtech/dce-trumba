@@ -38,7 +38,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @method listEvents
    * @param {string} webName unique identifier for the calendar
    * @param {TrumbaEventFilter} [filter] EventFilter for narrowing the results
-   *   of the list events search
+   *   of the list events search {@link https://github.com/harvard-edtech/dce-trumba/blob/main/src/types/TrumbaEventFilter.ts}
    * @returns a list of information for each event {@link https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S}
    */
   const listEvents = async (
@@ -117,7 +117,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @memberof api
    * @method registerForEvent
    * @param {TrumbaRegistration} registration object containing registration
-   *   information
+   *   information {@link https://github.com/harvard-edtech/dce-trumba/blob/main/src/types/TrumbaRegistration.ts}
    * @returns object containing attendee and event information {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees}
    */
   const registerForEvent = async (
@@ -184,7 +184,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @memberof api
    * @method listAttendees
    * @param {TrumbaAttendeeQuery} query object containing query information such
-   *   as web name and email
+   *   as web name and email {@link https://github.com/harvard-edtech/dce-trumba/blob/main/src/types/TrumbaAttendeeQuery.ts}
    * @returns list of attendee objects {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/listAttendee}
    */
   const listAttendees = async (
