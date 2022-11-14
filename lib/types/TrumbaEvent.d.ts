@@ -1,9 +1,8 @@
-declare type CustomField = {
-    fieldID: number;
-    label: string;
-    value: string;
-    type: number;
-};
+import TrumbaCustomField from './TrumbaCustomField';
+/**
+ * A single trumba event that users can register for
+ * @author Yuen Ler Chow
+ */
 declare type TrumbaEvent = {
     eventID: number;
     template: string;
@@ -27,7 +26,7 @@ declare type TrumbaEvent = {
     refundsAllowed: boolean;
     waitingListAvailable: boolean;
     signUpUrl: string;
-    customFields: CustomField[];
+    customFields: TrumbaCustomField[];
     permaLinkUrl: string;
     eventActionUrl: string;
     categoryCalendar: string;

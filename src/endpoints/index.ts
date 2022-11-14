@@ -9,24 +9,24 @@
 import axios from 'axios';
 
 // Import shared types
-import ErrorCode from '../shared/types/ErrorCode';
+import TrumbaErrorCode from '../types/TrumbaErrorCode';
 import TrumbaAuth from '../types/TrumbaAuth';
-import AttendeeQuery from '../shared/types/AttendeeQuery';
-import trumbaCodeMessageMap from '../shared/constants/trumbaCodeMessageMap';
+import TrumbaAttendeeQuery from '../types/TrumbaAttendeeQuery';
 import TrumbaEvent from '../types/TrumbaEvent';
 import TrumbaAttendee from '../types/TrumbaAttendee';
-import Registration from '../shared/types/Registration';
+import TrumbaRegistration from '../types/TrumbaRegistration';
+import TrumbaEventFilter from '../types/TrumbaEventFilter';
 
+// Import shared constants
+import TRUMBA_CODE_MESSAGE_MAP from '../shared/constants/TRUMBA_CODE_MESSAGE_MAP';
 
 // Import custom error
 import TrumbaError from '../shared/classes/TrumbaError';
-import EventFilter from '../shared/types/EventFilter';
-
 
 /**
  * Initialize Trumba API
  * @ignore
- * @param auth Trumba auth credentials
+ * @param {TrumbaAuth} auth Trumba auth credentials
  * @returns initialized copy of the Trumba API
  */
 const initTrumbaAPI = (auth: TrumbaAuth) => {
@@ -36,24 +36,15 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @instance
    * @memberof api
    * @method listEvents
-   * @param webName unique identifier for the calendar
-   * @param {object} filter object containing all arguments
-   * @param {number} filter.numEvents number of events to return
-   * @param {number[]} filter.eventIds list of event ids to return
-   * @param {Date} filter.startDate start date of events to return
-   * @param {Date} filter.endDate end date of events to return
-   * @param {number} filter.months number of months to return
-   * @param {number} filter.weeks number of weeks to return
-   * @param {number} filter.days number of days to return
-   * @param {number} filter.previousWeeks number of previous weeks to return
-   * @param {string} filter.filterView filter view to use
-   * @param {string} filter.search search query
-   * @param {boolean} filter.html whether to return HTML
-   * @param {boolean} filter.customNotes whether to return custom notes
-   *   the source course
+   * @param {string} webName unique identifier for the calendar
+   * @param {TrumbaEventFilter} [filter] EventFilter for narrowing the results
+   *   of the list events search
    * @returns a list of information for each event {@link https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S}
    */
-  const listEvents = async (webName: string, filter: EventFilter) : Promise<TrumbaEvent[]> => {
+  const listEvents = async (
+    webName: string,
+    filter?: TrumbaEventFilter,
+  ) : Promise<TrumbaEvent[]> => {
     try {
       // destructuring filter
       const { 
@@ -68,8 +59,8 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         filterView,
         search,
         html,
-        customNotes } = filter;
-
+        customNotes,
+      } = (filter ?? {});
 
       const params = {
         events: numEvents,
@@ -86,8 +77,9 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         html,
         customnotes: customNotes,
       }
-      const response = await axios.get(`http://www.trumba.com/calendars/${webName}.json`,
-      {params}
+      const response = await axios.get(
+        `http://www.trumba.com/calendars/${webName}.json`,
+        { params },
       );
       return response.data;
     } catch (err) {
@@ -99,7 +91,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       if ((err as any)?.response?.statusText === 'Not Found') {
         throw new TrumbaError({
           message: 'The web name was not found.',
-          code: ErrorCode.WebNameNotFound,
+          code: TrumbaErrorCode.WebNameNotFound,
         });
       }
 
@@ -108,12 +100,12 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         // (this is an unknown error)
         throw new TrumbaError({
           message: 'An unknown error occurred.',
-          code: ErrorCode.UnknownError,
+          code: TrumbaErrorCode.UnknownError,
         });
       }
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
-        code: trumbaCodeMessageMap[responseData[responseData.length - 1]],
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
       });
     }
   };
@@ -124,22 +116,13 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @instance
    * @memberof api
    * @method registerForEvent
-   * @param {object} registration object containing registration information such as event id, name, email, and status
-   * @param {number} registration.eventId id of the event to register for
-   * @param {string} registration.name name of the person registering
-   * @param {string} registration.email email of the person registering
-   * @param {string} registration.status status of the person registering
-   * @param {string} registration.eventTitle title of the event
-   * @param {string} registration.startDateTime start date and time of the event
-   * @param {string} registration.endDateTime end date and time of the event
-   * @param {string} registration.startDateTimeLocal end date and time of the event in local time
-   * @param {string} registration.endDateTimeLocal end date and time of the event in local time
-   * @param {FormAnswer[]} registration.formAnswers answers to the form questions
-   * 
-   * 
+   * @param {TrumbaRegistration} registration object containing registration
+   *   information
    * @returns object containing attendee and event information {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees}
    */
-  const registerForEvent = async (registration: Registration) : Promise<TrumbaAttendee> => {
+  const registerForEvent = async (
+    registration: TrumbaRegistration,
+  ): Promise<TrumbaAttendee> => {
     const {
       eventId,
       name,
@@ -183,13 +166,13 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         // (this is an unknown error)
         throw new TrumbaError({
           message: 'An unknown error occurred.',
-          code: ErrorCode.UnknownError,
+          code: TrumbaErrorCode.UnknownError,
         });
       }
 
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
-        code: trumbaCodeMessageMap[responseData[responseData.length - 1]],
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
       });
     }
   }
@@ -200,10 +183,13 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @instance
    * @memberof api
    * @method listAttendees
-   * @param query object containing query information such as web name and email
+   * @param {TrumbaAttendeeQuery} query object containing query information such
+   *   as web name and email
    * @returns list of attendee objects {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/listAttendee}
    */
-  const listAttendees = async (query: AttendeeQuery): Promise<TrumbaAttendee[]> => {
+  const listAttendees = async (
+    query: TrumbaAttendeeQuery,
+  ): Promise<TrumbaAttendee[]> => {
     const {
       webName,
       email,
@@ -235,13 +221,13 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         // (this is an unknown error)
         throw new TrumbaError({
           message: 'An unknown error occurred.',
-          code: ErrorCode.UnknownError,
+          code: TrumbaErrorCode.UnknownError,
         });
       }
 
       throw new TrumbaError({
         message: responseData[responseData.length - 1].errorMessage,
-        code: trumbaCodeMessageMap[responseData[responseData.length - 1]],
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
       });
     }
   };

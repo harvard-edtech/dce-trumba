@@ -1,14 +1,14 @@
-import FormAnswer from './TrumbaFormAnswer';
+import TrumbaFormAnswer from './TrumbaFormAnswer';
+/**
+ * Information required to register someone for an event
+ * @author Yuen Ler Chow
+ */
 declare type TrumbaRegistration = {
     eventId: number;
     name: string;
     email: string;
-    status: string;
+    status: 'registered' | 'declined';
     eventTitle?: string;
-    startDateTime?: Date;
-    endDateTime?: Date;
-    startDateTimeLocal?: Date;
-    endDateTimeLocal?: Date;
-    formAnswers?: FormAnswer[];
+    formAnswers?: TrumbaFormAnswer[];
 };
 export default TrumbaRegistration;

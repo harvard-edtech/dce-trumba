@@ -1,4 +1,8 @@
-import FormAnswer from './TrumbaFormAnswer';
+import TrumbaFormAnswer from './TrumbaFormAnswer';
+/**
+ * A single event attendee
+ * @author Yuen Ler Chow
+ */
 declare type TrumbaAttendee = {
     eventId: number;
     name: string;
@@ -9,6 +13,6 @@ declare type TrumbaAttendee = {
     endDateTime?: Date;
     startDateTimeLocal?: Date;
     endDateTimeLocal?: Date;
-    formAnswers?: FormAnswer[];
+    formAnswers?: TrumbaFormAnswer[];
 };
 export default TrumbaAttendee;
