@@ -23,12 +23,7 @@ import TRUMBA_CODE_MESSAGE_MAP from '../shared/constants/TRUMBA_CODE_MESSAGE_MAP
 // Import custom error
 import TrumbaError from '../shared/classes/TrumbaError';
 
-/**
- * Initialize Trumba API
- * @ignore
- * @param {TrumbaAuth} auth Trumba auth credentials
- * @returns initialized copy of the Trumba API
- */
+
 const initTrumbaAPI = (auth: TrumbaAuth) => {
   /**
    * Lists all events on the calendar that satisfy the provided filters
