@@ -3,8 +3,9 @@
  * @author Yuen Ler Chow
  */
 type TrumbaFormAnswer = {
-  // TODO: add descriptions for each item
+  // Unique ID for a question.
   fieldID: string;
+  // The answer(s) to the question. Multiple values in the array are used when posting to multi-value list of choices fields.
   fieldValue: string;
 };
 

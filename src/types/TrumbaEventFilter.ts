@@ -3,13 +3,13 @@
  * @author Yuen Ler Chow
  */
 type TrumbaEventFilter = {
-  // number of events to return
+  // The maximum number of events to return
   numEvents?: number;
-  // list of event ids to return
+  // Return a multiple events by a list of comma seperated event IDs
   eventIds?: number[];
-  // start date of events to return
+  // Return events starting on or after this date. This value is formatted YYYYMMDD
   startDate?: Date;
-  // end date of events to return
+  // Return events ending before after this date. This value is formatted YYYYMMDD
   endDate?: Date;
   // number of months to return
   months?: number;
@@ -17,15 +17,15 @@ type TrumbaEventFilter = {
   weeks?: number;
   // number of days to return
   days?: number;
-  // number of previous weeks to return
+  // Number of weeks previous to the specified date to return
   previousWeeks?: number;
-  // filter view to use
+  // Return only events that match a pre-defined filter view
   filterView? : string;
-  // search query
+  // Return only events that contain a search term
   search?: string;
-  // whether to return HTML
+  // Whether to include HTML code in event fields
   html: boolean;
-  // whether to return custom notes in the source course
+  // Whether to include the custom field values at the top of the description field
   customNotes?: boolean;
 }
 

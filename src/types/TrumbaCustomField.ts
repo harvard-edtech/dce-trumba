@@ -3,10 +3,13 @@
  * @author Yuen Ler Chow
  */
 type TrumbaCustomField = {
-  // TODO: add descriptions for each item
+  // Unique ID number for the custom field
   fieldID: number,
+  // The custom field label
   label: string,
+  // The custom field value
   value: string,
+  // The field type ID
   type: number,
 }
 
