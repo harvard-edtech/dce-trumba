@@ -6,17 +6,17 @@ import TrumbaFormAnswer from './TrumbaFormAnswer';
  */
 type TrumbaRegistration = {
   // id of the event to register for
-  eventId: number;
+  eventId: number,
   // name of the person registering
-  name: string;
+  name: string,
   // email of the person registering
-  email: string;
+  email: string,
   // status of the person registering
-  status?: 'registered' | 'declined';
+  status?: 'registered' | 'declined',
   // title of the event
-  eventTitle?: string;
+  eventTitle?: string,
   // answers to the form questions
-  formAnswers?: TrumbaFormAnswer[];
+  formAnswers?: TrumbaFormAnswer[],
 };
 
 export default TrumbaRegistration;

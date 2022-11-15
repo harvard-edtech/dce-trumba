@@ -58,11 +58,25 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         customNotes,
       } = (filter ?? {});
 
-
+      // Build request params
       const params = {
         events: numEvents,
-        eventid: eventIds && eventIds.length == 1 ? eventIds[0] : undefined,
-        eventids: eventIds && eventIds.length > 1 ? eventIds.join(',') : undefined,
+        eventid: (
+          eventIds
+          && (
+            eventIds.length == 1
+              ? eventIds[0]
+              : undefined
+          )
+        ),
+        eventids: (
+          eventIds
+          && (
+            eventIds.length > 1
+              ? eventIds.join(',')
+              : undefined
+          )
+        ),
         startdate: startDate ? startDate.toISOString() : undefined,
         enddate: endDate ? endDate.toISOString() : undefined,
         months,
@@ -75,17 +89,19 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         customnotes: customNotes,
       }
 
-      const {data} = await axios.get(
+      // Send request to trumba
+      const { data } = await axios.get(
         `http://www.trumba.com/calendars/${webName}.json`,
         { params },
       );
+
       return data;
     } catch (err) {
       // Get response data
       const responseData = (err as any)?.response?.data;
 
-
-      // we do this because for some reason response.data doesn't format properly
+      // We do this because for some reason response.data doesn't
+      // format properly
       if ((err as any)?.response?.statusText === 'Not Found') {
         throw new TrumbaError({
           message: 'The web name was not found.',
@@ -108,7 +124,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     }
   };
 
-   /**
+  /**
    * Registers a user for an event on the calendar
    * @author Yuen Ler Chow
    * @instance
@@ -130,17 +146,23 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       formAnswers,
     } = registration;
 
+    // Build the request
     const request = {
       eventID: eventId,
       name,
       email,
-      status: status === 'declined' ? 'declined' : 'registered',
+      status: (
+        status === 'declined'
+          ? 'declined'
+          : 'registered'
+      ),
       eventTitle,
       formAnswers,
     };
 
     try {
-      const {data} = await axios.put(
+      // Send the request
+      const { data } = await axios.put(
         'https://www.trumba.com/api/v2/attendees', request, { auth },
       );
       return data;
@@ -193,11 +215,13 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     };
 
     try {
-      const { data } = await axios.get('https://www.trumba.com/api/v2/attendees',
+      const { data } = await axios.get(
+        'https://www.trumba.com/api/v2/attendees',
         {
           params,
           auth
-        });
+        },
+      );
       return data;
     } catch (err) {
       // Get response data

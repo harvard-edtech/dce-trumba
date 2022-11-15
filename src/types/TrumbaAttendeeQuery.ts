@@ -4,15 +4,15 @@
  */
 type TrumbaAttendeeQuery = {
   // Unique identifier for the trumba calendar
-  webName: string;
+  webName: string,
   // The email address of the attendee
-  email: string;
+  email: string,
   // The registration status of the attendee
-  status?: 'registered' | 'declined';
+  status?: 'registered' | 'declined',
   // Only return callbacks that start after the specified date in calendar timezone. Default value when not specified is the current date.
-  startDate?: Date;
+  startDate?: Date,
   // Only return callbacks that end before the specified date in calendar timezone. Default value when not specified is all future.
-  endDate?: Date;
-}
+  endDate?: Date,
+};
 
 export default TrumbaAttendeeQuery;

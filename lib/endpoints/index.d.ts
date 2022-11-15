@@ -10,12 +10,6 @@ import TrumbaEvent from '../types/TrumbaEvent';
 import TrumbaAttendee from '../types/TrumbaAttendee';
 import TrumbaRegistration from '../types/TrumbaRegistration';
 import TrumbaEventFilter from '../types/TrumbaEventFilter';
-/**
- * Initialize Trumba API
- * @ignore
- * @param {TrumbaAuth} auth Trumba auth credentials
- * @returns initialized copy of the Trumba API
- */
 declare const initTrumbaAPI: (auth: TrumbaAuth) => {
     listEvents: (webName: string, filter?: TrumbaEventFilter) => Promise<TrumbaEvent[]>;
     listAttendees: (query: TrumbaAttendeeQuery) => Promise<TrumbaAttendee[]>;

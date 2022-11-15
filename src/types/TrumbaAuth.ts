@@ -4,9 +4,9 @@
  */
 type TrumbaAuth = {
   // Username/email address for the account
-  username: string;
+  username: string,
   // The password associated with the username
-  password: string;
+  password: string,
 };
 
 export default TrumbaAuth;

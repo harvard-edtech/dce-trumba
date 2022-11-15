@@ -6,25 +6,25 @@ import TrumbaFormAnswer from './TrumbaFormAnswer';
  */
 type TrumbaAttendee = {
   // Unique ID for an event
-  eventId: number;
+  eventId: number,
   // The name of the attendee
-  name: string;
+  name: string,
   // The email address of the attendee
-  email: string;
+  email: string,
   // The registration status of the attendee
-  status: 'registered' | 'declined';
+  status: 'registered' | 'declined',
   // The title of the event
-  eventTitle?: string;
+  eventTitle?: string,
   // Start date and time of the event in UTC
-  startDateTime?: string;
+  startDateTime?: string,
   // End date and time of the event in UTC
-  endDateTime?: string;
+  endDateTime?: string,
   // Start date and time of the event in local time
-  startDateTimeLocal?: string;
+  startDateTimeLocal?: string,
   // End date and time of the event in local time
-  endDateTimeLocal?: string;
+  endDateTimeLocal?: string,
   // The attendee's answers to the event's form
-  formAnswers?: TrumbaFormAnswer[];
+  formAnswers?: TrumbaFormAnswer[],
 };
 
 export default TrumbaAttendee;

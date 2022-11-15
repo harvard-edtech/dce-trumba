@@ -11,6 +11,6 @@ type TrumbaCustomField = {
   value: string,
   // The field type ID
   type: number,
-}
+};
 
 export default TrumbaCustomField;

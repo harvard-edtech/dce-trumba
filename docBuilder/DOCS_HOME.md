@@ -1,7 +1,9 @@
 # Trumba
 
+## Quickstart
 
-First, create an auth object:
+First, put your trumba credentials into an object:
+
 ```ts
 const auth = {
   username: 'your trumba username',
@@ -12,36 +14,26 @@ const auth = {
 Then, initialize the api:
 
 ```ts
+import initTrumbaAPI from 'dce-trumba';
+
+...
+
 const trumbaAPI = initTrumbaAPI(auth);
 ```
 
-To list events:
+Then, you can use `trumbaAPI` to access the Trumba API. See the examples below:
 
 ```ts
-const webName = 'the calendar webname';
-const events = await trumbaAPI.listEvents(webName);
-```
+// List events
+const events = await trumbaAPI.listEvents('my-calendar');
 
-
-To register a user for an event:
-
-```ts
+// Register a user for an event:
 const response = await trumbaAPI.registerForEvent({
   eventId: 123456789,
   name: "Bob",
   email: "bob@example.com",
 });
 ```
-
-To list all events a user is registered for:
-
-```ts
-const response = await trumbaAPI.listAttendees({
-  webName: 'the calendar webname',
-  email: 'bob@example.com',
-})
-```
-
 
 ## Special Thanks
 

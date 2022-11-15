@@ -85,7 +85,7 @@ type TrumbaEvent = {
   // the transfer target count for this event
   registrationTransferTargetCount: number,
   // whether registration allows changes
-  regAllowChanges: boolean
-}
+  regAllowChanges: boolean,
+};
 
 export default TrumbaEvent;

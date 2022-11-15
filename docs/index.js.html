@@ -94,12 +94,6 @@ var TrumbaErrorCode_1 = __importDefault(require("../types/TrumbaErrorCode"));
 var TRUMBA_CODE_MESSAGE_MAP_1 = __importDefault(require("../shared/constants/TRUMBA_CODE_MESSAGE_MAP"));
 // Import custom error
 var TrumbaError_1 = __importDefault(require("../shared/classes/TrumbaError"));
-/**
- * Initialize Trumba API
- * @ignore
- * @param {TrumbaAuth} auth Trumba auth credentials
- * @returns initialized copy of the Trumba API
- */
 var initTrumbaAPI = function (auth) {
     /**
      * Lists all events on the calendar that satisfy the provided filters
@@ -113,7 +107,7 @@ var initTrumbaAPI = function (auth) {
      * @returns a list of information for each event {@link https://app.swaggerhub.com/apis-docs/Trumba/Published-Events/1S}
      */
     var listEvents = function (webName, filter) { return __awaiter(void 0, void 0, void 0, function () {
-        var _a, numEvents, eventIds, startDate, endDate, months, weeks, days, previousWeeks, filterView, search, html, customNotes, params, response, err_1, responseData;
+        var _a, numEvents, eventIds, startDate, endDate, months, weeks, days, previousWeeks, filterView, search, html, customNotes, params, data, err_1, responseData;
         var _b, _c;
         return __generator(this, function (_d) {
             switch (_d.label) {
@@ -122,10 +116,16 @@ var initTrumbaAPI = function (auth) {
                     _a = (filter !== null &amp;&amp; filter !== void 0 ? filter : {}), numEvents = _a.numEvents, eventIds = _a.eventIds, startDate = _a.startDate, endDate = _a.endDate, months = _a.months, weeks = _a.weeks, days = _a.days, previousWeeks = _a.previousWeeks, filterView = _a.filterView, search = _a.search, html = _a.html, customNotes = _a.customNotes;
                     params = {
                         events: numEvents,
-                        eventid: eventIds.length == 1 ? eventIds[0] : undefined,
-                        eventids: eventIds.length > 1 ? eventIds.join(',') : undefined,
-                        startdate: startDate.toISOString(),
-                        enddate: endDate.toISOString(),
+                        eventid: (eventIds
+                            &amp;&amp; (eventIds.length == 1
+                                ? eventIds[0]
+                                : undefined)),
+                        eventids: (eventIds
+                            &amp;&amp; (eventIds.length > 1
+                                ? eventIds.join(',')
+                                : undefined)),
+                        startdate: startDate ? startDate.toISOString() : undefined,
+                        enddate: endDate ? endDate.toISOString() : undefined,
                         months: months,
                         weeks: weeks,
                         days: days,
@@ -137,12 +137,13 @@ var initTrumbaAPI = function (auth) {
                     };
                     return [4 /*yield*/, axios_1.default.get("http://www.trumba.com/calendars/".concat(webName, ".json"), { params: params })];
                 case 1:
-                    response = _d.sent();
-                    return [2 /*return*/, response.data];
+                    data = (_d.sent()).data;
+                    return [2 /*return*/, data];
                 case 2:
                     err_1 = _d.sent();
                     responseData = (_b = err_1 === null || err_1 === void 0 ? void 0 : err_1.response) === null || _b === void 0 ? void 0 : _b.data;
-                    // we do this because for some reason response.data doesn't format properly
+                    // We do this because for some reason response.data doesn't
+                    // format properly
                     if (((_c = err_1 === null || err_1 === void 0 ? void 0 : err_1.response) === null || _c === void 0 ? void 0 : _c.statusText) === 'Not Found') {
                         throw new TrumbaError_1.default({
                             message: 'The web name was not found.',
@@ -166,17 +167,17 @@ var initTrumbaAPI = function (auth) {
         });
     }); };
     /**
-    * Registers a user for an event on the calendar
-    * @author Yuen Ler Chow
-    * @instance
-    * @memberof api
-    * @method registerForEvent
-    * @param {TrumbaRegistration} registration object containing registration
-    *   information {@link https://github.com/harvard-edtech/dce-trumba/blob/main/src/types/TrumbaRegistration.ts}
-    * @returns object containing attendee and event information {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees}
-    */
+     * Registers a user for an event on the calendar
+     * @author Yuen Ler Chow
+     * @instance
+     * @memberof api
+     * @method registerForEvent
+     * @param {TrumbaRegistration} registration object containing registration
+     *   information {@link https://github.com/harvard-edtech/dce-trumba/blob/main/src/types/TrumbaRegistration.ts}
+     * @returns object containing attendee and event information {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/put_attendees}
+     */
     var registerForEvent = function (registration) { return __awaiter(void 0, void 0, void 0, function () {
-        var eventId, name, email, status, eventTitle, formAnswers, request, response, attendee, err_2, responseData;
+        var eventId, name, email, status, eventTitle, formAnswers, request, data, err_2, responseData;
         var _a;
         return __generator(this, function (_b) {
             switch (_b.label) {
@@ -186,7 +187,9 @@ var initTrumbaAPI = function (auth) {
                         eventID: eventId,
                         name: name,
                         email: email,
-                        status: status,
+                        status: (status === 'declined'
+                            ? 'declined'
+                            : 'registered'),
                         eventTitle: eventTitle,
                         formAnswers: formAnswers,
                     };
@@ -195,20 +198,8 @@ var initTrumbaAPI = function (auth) {
                     _b.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, axios_1.default.put('https://www.trumba.com/api/v2/attendees', request, { auth: auth })];
                 case 2:
-                    response = _b.sent();
-                    attendee = {
-                        eventId: response.data.eventID,
-                        name: response.data.name,
-                        email: response.data.email,
-                        status: response.data.status,
-                        eventTitle: response.data.eventTitle,
-                        startDateTime: new Date(response.data.startDateTime),
-                        endDateTime: new Date(response.data.endDateTime),
-                        startDateTimeLocal: new Date(response.data.startDateTimeLocal),
-                        endDateTimeLocal: new Date(response.data.endDateTimeLocal),
-                        formAnswers: response.data.formAnswers,
-                    };
-                    return [2 /*return*/, attendee];
+                    data = (_b.sent()).data;
+                    return [2 /*return*/, data];
                 case 3:
                     err_2 = _b.sent();
                     responseData = (_a = err_2 === null || err_2 === void 0 ? void 0 : err_2.response) === null || _a === void 0 ? void 0 : _a.data;

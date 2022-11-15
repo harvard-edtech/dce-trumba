@@ -4,29 +4,29 @@
  */
 type TrumbaEventFilter = {
   // The maximum number of events to return
-  numEvents?: number;
+  numEvents?: number,
   // Return a multiple events by a list of comma seperated event IDs
-  eventIds?: number[];
+  eventIds?: number[],
   // Return events starting on or after this date. This value is formatted YYYYMMDD
-  startDate?: Date;
+  startDate?: Date,
   // Return events ending before after this date. This value is formatted YYYYMMDD
-  endDate?: Date;
+  endDate?: Date,
   // number of months to return
-  months?: number;
+  months?: number,
   // number of weeks to return
-  weeks?: number;
+  weeks?: number,
   // number of days to return
-  days?: number;
+  days?: number,
   // Number of weeks previous to the specified date to return
-  previousWeeks?: number;
+  previousWeeks?: number,
   // Return only events that match a pre-defined filter view
-  filterView? : string;
+  filterView? : string,
   // Return only events that contain a search term
-  search?: string;
+  search?: string,
   // Whether to include HTML code in event fields
-  html: boolean;
+  html: boolean,
   // Whether to include the custom field values at the top of the description field
-  customNotes?: boolean;
-}
+  customNotes?: boolean,
+};
 
 export default TrumbaEventFilter;

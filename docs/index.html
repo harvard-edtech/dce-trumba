@@ -57,37 +57,31 @@
 
     <section class="readme usertext">
         <article><h1>Trumba</h1>
-<p>First create an auth.json file:</p>
-<p>{
-&quot;username&quot;: &quot;INSERT_EMAIL_HERE&quot;,
-&quot;password&quot;: &quot;INSERT_PASSWORD_HERE&quot;
-}</p>
-<p>First initialize the api:</p>
-<p>const auth = require('auth.json');
-const trumbaAPI = initTrumbaAPI(auth);</p>
-<p>To list events:</p>
-<p>const webName = 'INSERT_WEBNAME_HERE'
-trumbaAPI.listEvents(webName).then(response =&gt; {
-console.log(response);
-})</p>
-<p>To register a user for an event:</p>
-<p>const registration = {
-eventId: 123456789,
-name: &quot;Bob&quot;,
-email: &quot;bob@example.com&quot;,
-status: &quot;registered&quot;,
-};</p>
-<p>trumbaAPI.registerForEvent(registration).then(response =&gt; {
-console.log(response);
-})</p>
-<p>To list all events a user is registered for:</p>
-<p>const query = {
-webName: 'INSERT_WEBNAME_HERE
-email: 'bob@example.com',
-}</p>
-<p>trumbaAPI.listAttendees(query).then(response =&gt; {
-console.log(response);
-})</p>
+<h2>Quickstart</h2>
+<p>First, put your trumba credentials into an object:</p>
+<pre class="prettyprint source lang-ts"><code>const auth = {
+  username: 'your trumba username',
+  password: 'your trumba password',
+};
+</code></pre>
+<p>Then, initialize the api:</p>
+<pre class="prettyprint source lang-ts"><code>import initTrumbaAPI from 'dce-trumba';
+
+...
+
+const trumbaAPI = initTrumbaAPI(auth);
+</code></pre>
+<p>Then, you can use <code>trumbaAPI</code> to access the Trumba API. See the examples below:</p>
+<pre class="prettyprint source lang-ts"><code>// List events
+const events = await trumbaAPI.listEvents('my-calendar');
+
+// Register a user for an event:
+const response = await trumbaAPI.registerForEvent({
+  eventId: 123456789,
+  name: &quot;Bob&quot;,
+  email: &quot;bob@example.com&quot;,
+});
+</code></pre>
 <h2>Special Thanks</h2>
 <p>This project would not be possible without the enormous amount of development work by <a href="https://github.com/yuenler">Yuen Ler Chow</a>.</p></article>
     </section>
