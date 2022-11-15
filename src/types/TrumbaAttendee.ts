@@ -16,13 +16,13 @@ type TrumbaAttendee = {
   // The title of the event
   eventTitle?: string;
   // Start date and time of the event in UTC
-  startDateTime?: Date;
+  startDateTime?: string;
   // End date and time of the event in UTC
-  endDateTime?: Date;
+  endDateTime?: string;
   // Start date and time of the event in local time
-  startDateTimeLocal?: Date;
+  startDateTimeLocal?: string;
   // End date and time of the event in local time
-  endDateTimeLocal?: Date;
+  endDateTimeLocal?: string;
   // The attendee's answers to the event's form
   formAnswers?: TrumbaFormAnswer[];
 };

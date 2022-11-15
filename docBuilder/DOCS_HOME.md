@@ -1,8 +1,7 @@
 # Trumba
 
-// TODO: instead, describe this without a `.json` file because that's not required (someone is instead just creating an object)
-First create an auth object:
-// TODO: always use ```ts code ``` syntax
+
+First, create an auth object:
 ```ts
 const auth = {
   username: 'your trumba username',
@@ -10,44 +9,39 @@ const auth = {
 };
 ```
 
-First initialize the api:
+Then, initialize the api:
 
-// TODO: change these to es6 imports (`import ... from ... `)
-const auth = require('auth.json');
+```ts
 const trumbaAPI = initTrumbaAPI(auth);
+```
 
 To list events:
 
-const webName = 'INSERT_WEBNAME_HERE';
-// TODO: document using async/await `const events = await trumbaAPI.listEvents(webName);`
-trumbaAPI.listEvents(webName).then(response => {
-  console.log(response);
-})
+```ts
+const webName = 'the calendar webname';
+const events = await trumbaAPI.listEvents(webName);
+```
 
 
 To register a user for an event:
 
-// TODO: simplify and put in one line:
 ```ts
 const response = await trumbaAPI.registerForEvent({
   eventId: 123456789,
   name: "Bob",
   email: "bob@example.com",
-  status: "registered",
 });
 ```
-// TODO: always set 'status' to registered and don't require the user to pass that in
 
 To list all events a user is registered for:
 
-const query = {
-  webName: 'INSERT_WEBNAME_HERE
+```ts
+const response = await trumbaAPI.listAttendees({
+  webName: 'the calendar webname',
   email: 'bob@example.com',
-}
-
-trumbaAPI.listAttendees(query).then(response => {
-  console.log(response);
 })
+```
+
 
 ## Special Thanks
 

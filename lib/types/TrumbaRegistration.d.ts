@@ -7,7 +7,7 @@ declare type TrumbaRegistration = {
     eventId: number;
     name: string;
     email: string;
-    status: 'registered' | 'declined';
+    status?: 'registered' | 'declined';
     eventTitle?: string;
     formAnswers?: TrumbaFormAnswer[];
 };

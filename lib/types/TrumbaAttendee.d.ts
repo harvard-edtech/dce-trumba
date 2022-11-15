@@ -9,10 +9,10 @@ declare type TrumbaAttendee = {
     email: string;
     status: 'registered' | 'declined';
     eventTitle?: string;
-    startDateTime?: Date;
-    endDateTime?: Date;
-    startDateTimeLocal?: Date;
-    endDateTimeLocal?: Date;
+    startDateTime?: string;
+    endDateTime?: string;
+    startDateTimeLocal?: string;
+    endDateTimeLocal?: string;
     formAnswers?: TrumbaFormAnswer[];
 };
 export default TrumbaAttendee;

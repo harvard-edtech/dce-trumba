@@ -5,7 +5,7 @@
 declare type TrumbaAttendeeQuery = {
     webName: string;
     email: string;
-    status?: string;
+    status?: 'registered' | 'declined';
     startDate?: Date;
     endDate?: Date;
 };

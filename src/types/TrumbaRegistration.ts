@@ -12,7 +12,7 @@ type TrumbaRegistration = {
   // email of the person registering
   email: string;
   // status of the person registering
-  status: 'registered' | 'declined';
+  status?: 'registered' | 'declined';
   // title of the event
   eventTitle?: string;
   // answers to the form questions

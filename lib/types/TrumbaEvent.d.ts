@@ -26,9 +26,25 @@ declare type TrumbaEvent = {
     refundsAllowed: boolean;
     waitingListAvailable: boolean;
     signUpUrl: string;
-    customFields: TrumbaCustomField[];
+    repeatingRegistration: 0 | 1 | 4;
+    repeats: string;
     permaLinkUrl: string;
+    customFields: TrumbaCustomField[];
     eventActionUrl: string;
+    eventImage: {
+        url: string;
+        size: {
+            width: number;
+            height: number;
+        };
+    };
+    detailImage: {
+        url: string;
+        size: {
+            width: number;
+            height: number;
+        };
+    };
     categoryCalendar: string;
     registrationTransferTargetCount: number;
     regAllowChanges: boolean;

@@ -45,6 +45,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     webName: string,
     filter?: TrumbaEventFilter,
   ) : Promise<TrumbaEvent[]> => {
+
     try {
       // destructuring filter
       const { 
@@ -62,12 +63,13 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         customNotes,
       } = (filter ?? {});
 
+
       const params = {
         events: numEvents,
-        eventid: eventIds.length == 1 ? eventIds[0] : undefined,
-        eventids: eventIds.length > 1 ? eventIds.join(',') : undefined,
-        startdate: startDate.toISOString(),
-        enddate: endDate.toISOString(),
+        eventid: eventIds && eventIds.length == 1 ? eventIds[0] : undefined,
+        eventids: eventIds && eventIds.length > 1 ? eventIds.join(',') : undefined,
+        startdate: startDate ? startDate.toISOString() : undefined,
+        enddate: endDate ? endDate.toISOString() : undefined,
         months,
         weeks,
         days,
@@ -77,11 +79,12 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         html,
         customnotes: customNotes,
       }
-      const response = await axios.get(
+
+      const {data} = await axios.get(
         `http://www.trumba.com/calendars/${webName}.json`,
         { params },
       );
-      return response.data;
+      return data;
     } catch (err) {
       // Get response data
       const responseData = (err as any)?.response?.data;
@@ -136,28 +139,16 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       eventID: eventId,
       name,
       email,
-      status,
+      status: status === 'declined' ? 'declined' : 'registered',
       eventTitle,
       formAnswers,
     };
 
     try {
-      const response = await axios.put(
+      const {data} = await axios.put(
         'https://www.trumba.com/api/v2/attendees', request, { auth },
       );
-      const attendee: TrumbaAttendee = {
-        eventId: response.data.eventID,
-        name: response.data.name,
-        email: response.data.email,
-        status: response.data.status,
-        eventTitle: response.data.eventTitle,
-        startDateTime: new Date(response.data.startDateTime),
-        endDateTime: new Date(response.data.endDateTime),
-        startDateTimeLocal: new Date(response.data.startDateTimeLocal),
-        endDateTimeLocal: new Date(response.data.endDateTimeLocal),
-        formAnswers: response.data.formAnswers,
-      };
-      return attendee;
+      return data;
     } catch (err) {
       // Get response data
       const responseData = (err as any)?.response?.data;
