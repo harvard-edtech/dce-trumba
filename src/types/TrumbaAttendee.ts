@@ -5,25 +5,25 @@ import TrumbaFormAnswer from './TrumbaFormAnswer';
  * @author Yuen Ler Chow
  */
 type TrumbaAttendee = {
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // Unique ID for an event
   eventId: number;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // The name of the attendee
   name: string;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // The email address of the attendee
   email: string;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // The registration status of the attendee
   status: 'registered' | 'declined';
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // The title of the event
   eventTitle?: string;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // Start date and time of the event in UTC
   startDateTime?: Date;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // End date and time of the event in UTC
   endDateTime?: Date;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // Start date and time of the event in local time
   startDateTimeLocal?: Date;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // End date and time of the event in local time
   endDateTimeLocal?: Date;
-  // TODO: describe this item (maybe you can copy this out of the docs?)
+  // The attendee's answers to the event's form
   formAnswers?: TrumbaFormAnswer[];
 };
 

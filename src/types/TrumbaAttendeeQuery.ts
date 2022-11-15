@@ -3,11 +3,15 @@
  * @author Yuen Ler Chow
  */
 type TrumbaAttendeeQuery = {
-  // TODO: describe each item
+  // Unique identifier for the trumba calendar
   webName: string;
+  // The email address of the attendee
   email: string;
-  status?: string;
+  // The registration status of the attendee
+  status?: 'registered' | 'declined';
+  // Only return callbacks that start after the specified date in calendar timezone. Default value when not specified is the current date.
   startDate?: Date;
+  // Only return callbacks that end before the specified date in calendar timezone. Default value when not specified is all future.
   endDate?: Date;
 }
 
