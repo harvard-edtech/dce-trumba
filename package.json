@@ -4,7 +4,6 @@
   "description": "Trumba calendar and event registrations API wrapper",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
-  "private": true,
   "scripts": {
     "build": "tsc --project ./tsconfig.json && rm -rf ./docBuilder/template;cp -r ./node_modules/docdash ./docBuilder/template; node ./docBuilder/updateBuilder.js;rm -rf ./docs;./node_modules/.bin/jsdoc -c ./docBuilder/jsdocConfig.json",
     "test": "ts-node sandbox.ts"
