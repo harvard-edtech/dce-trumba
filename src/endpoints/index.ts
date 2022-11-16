@@ -90,10 +90,11 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
       }
 
       // Send request to trumba
-      const { data } = await axios.get(
-        `http://www.trumba.com/calendars/${webName}.json`,
-        { params },
-      );
+      const { data } = await axios({
+        method: 'get',
+        url: `http://www.trumba.com/calendars/${webName}.json`,
+        params,
+      })
 
       return data;
     } catch (err) {
@@ -162,9 +163,12 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
 
     try {
       // Send the request
-      const { data } = await axios.put(
-        'https://www.trumba.com/api/v2/attendees', request, { auth },
-      );
+      const {data} = await axios({
+        method: 'put',
+        url: 'https://www.trumba.com/api/v2/attendees',
+        data: request,
+        auth,
+      })
       return data;
     } catch (err) {
       // Get response data
@@ -215,13 +219,12 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     };
 
     try {
-      const { data } = await axios.get(
-        'https://www.trumba.com/api/v2/attendees',
-        {
-          params,
-          auth
-        },
-      );
+      const { data } = await axios({
+        method: 'get',
+        url: 'https://www.trumba.com/api/v2/attendees',
+        params,
+        auth,
+      })
       return data;
     } catch (err) {
       // Get response data
