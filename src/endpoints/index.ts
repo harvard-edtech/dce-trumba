@@ -113,7 +113,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         // No information on the error
         // (this is an unknown error)
         throw new TrumbaError({
-          message:  (err as any).message,
+          message: `An unknown error occurred: ${(err as any).message}`,
           code: TrumbaErrorCode.UnknownError,
         });
       }
@@ -173,7 +173,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         // No information on the error
         // (this is an unknown error)
         throw new TrumbaError({
-          message:  (err as any).message,
+          message: `An unknown error occurred: ${(err as any).message}`,
           code: TrumbaErrorCode.UnknownError,
         });
       }
@@ -230,7 +230,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         // No information on the error
         // (this is an unknown error)
         throw new TrumbaError({
-          message:  (err as any).message,
+          message: `An unknown error occurred: ${(err as any).message}`,
           code: TrumbaErrorCode.UnknownError,
         });
       }
