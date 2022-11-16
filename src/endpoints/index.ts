@@ -94,7 +94,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         method: 'get',
         url: `http://www.trumba.com/calendars/${webName}.json`,
         params,
-      })
+      });
 
       return data;
     } catch (err) {
@@ -168,7 +168,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         url: 'https://www.trumba.com/api/v2/attendees',
         data: request,
         auth,
-      })
+      });
       return data;
     } catch (err) {
       // Get response data
@@ -224,7 +224,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
         url: 'https://www.trumba.com/api/v2/attendees',
         params,
         auth,
-      })
+      });
       return data;
     } catch (err) {
       // Get response data
