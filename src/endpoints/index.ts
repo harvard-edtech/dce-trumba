@@ -6,9 +6,7 @@
  */
 
 // Import libs
-// import axios from 'axios';
-const axios = require('axios');
-
+import axios from 'axios';
 
 // Import shared types
 import TrumbaErrorCode from '../types/TrumbaErrorCode';

@@ -87,8 +87,7 @@ var __importDefault = (this &amp;&amp; this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 // Import libs
-// import axios from 'axios';
-var axios = require('axios');
+var axios_1 = __importDefault(require("axios"));
 // Import shared types
 var TrumbaErrorCode_1 = __importDefault(require("../types/TrumbaErrorCode"));
 // Import shared constants
@@ -136,7 +135,7 @@ var initTrumbaAPI = function (auth) {
                         html: html,
                         customnotes: customNotes,
                     };
-                    return [4 /*yield*/, axios.get("http://www.trumba.com/calendars/".concat(webName, ".json"), { params: params })];
+                    return [4 /*yield*/, axios_1.default.get("http://www.trumba.com/calendars/".concat(webName, ".json"), { params: params })];
                 case 1:
                     data = (_d.sent()).data;
                     return [2 /*return*/, data];
@@ -197,7 +196,7 @@ var initTrumbaAPI = function (auth) {
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios.put('https://www.trumba.com/api/v2/attendees', request, { auth: auth })];
+                    return [4 /*yield*/, axios_1.default.put('https://www.trumba.com/api/v2/attendees', request, { auth: auth })];
                 case 2:
                     data = (_b.sent()).data;
                     return [2 /*return*/, data];
@@ -247,7 +246,7 @@ var initTrumbaAPI = function (auth) {
                     _b.label = 1;
                 case 1:
                     _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, axios.get('https://www.trumba.com/api/v2/attendees', {
+                    return [4 /*yield*/, axios_1.default.get('https://www.trumba.com/api/v2/attendees', {
                             params: params,
                             auth: auth
                         })];
