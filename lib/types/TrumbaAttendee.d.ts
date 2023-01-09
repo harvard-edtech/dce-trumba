@@ -4,7 +4,7 @@ import TrumbaFormAnswer from './TrumbaFormAnswer';
  * @author Yuen Ler Chow
  */
 declare type TrumbaAttendee = {
-    eventId: number;
+    eventID: number;
     name: string;
     email: string;
     status: 'registered' | 'declined';

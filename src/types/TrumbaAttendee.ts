@@ -6,7 +6,7 @@ import TrumbaFormAnswer from './TrumbaFormAnswer';
  */
 type TrumbaAttendee = {
   // Unique ID for an event
-  eventId: number,
+  eventID: number,
   // The name of the attendee
   name: string,
   // The email address of the attendee
