@@ -130,14 +130,14 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
    * @instance
    * @memberof api
    * @method getRegistrationFormQuestions
-   * @param {string} eventId unique identifier for the event
+   * @param {number} eventId unique identifier for the event
    * @returns a list of questions for the event's registration form {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/regform}
    */
 
-  const getRegistrationFormQuestions = async (event: TrumbaEvent): Promise<TrumbaRegistrationQuestion[]> => {
+  const getRegistrationFormQuestions = async (eventId: number): Promise<TrumbaRegistrationQuestion[]> => {
     try {
       const { data } = await axios.get(
-        `https://www.trumba.com/api/v2/regform/${event.eventID}`,
+        `https://www.trumba.com/api/v2/regform/${eventId}`,
         { auth },
       );
       return data;
