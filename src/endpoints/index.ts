@@ -200,7 +200,9 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     try {
       // Send the request
       const { data } = await axios.put(
-        'https://www.trumba.com/api/v2/attendees', request, { auth },
+        'https://www.trumba.com/api/v2/attendees',
+        request,
+        { auth },
       );
       return data;
     } catch (err) {
