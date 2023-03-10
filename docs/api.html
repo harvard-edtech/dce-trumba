@@ -27,7 +27,7 @@
 
 <nav style="border-right: 2px solid #ccc; padding-bottom: 25px;" >
     
-    <h2><a style="font-size: 30px;" href="index.html">Trumba API</a></h2><h3>Endpoint Functions</h3><ul><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#listAttendees">listAttendees</a></li><li data-type='method'><a href="api.html#listEvents">listEvents</a></li><li data-type='method'><a href="api.html#registerForEvent">registerForEvent</a></li></ul></li></ul>
+    <h2><a style="font-size: 30px;" href="index.html">Trumba API</a></h2><h3>Endpoint Functions</h3><ul><li><a href="api.html">api</a><ul class='methods'><li data-type='method'><a href="api.html#getRegistrationFormQuestions">getRegistrationFormQuestions</a></li><li data-type='method'><a href="api.html#listAttendees">listAttendees</a></li><li data-type='method'><a href="api.html#listEvents">listEvents</a></li><li data-type='method'><a href="api.html#registerForEvent">registerForEvent</a></li></ul></li></ul>
 </nav>
 
 <div id="main">
@@ -137,6 +137,159 @@
 
     
 
+    <h4 class="name" id="getRegistrationFormQuestions"><span class="type-signature"></span>getRegistrationFormQuestions<span class="signature">(eventId)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+
+<dl class="details">
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line128">line 128</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-author">Author:</dt>
+    <dd class="tag-author">
+        <ul>
+            <li>Yuen Ler Chow</li>
+        </ul>
+    </dd>
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+<div class="description usertext">
+    Gets registration form questions for an event on the calendar
+</div>
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>eventId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">unique identifier for the event</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    a list of questions for the event's registration form <a href="https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/regform">https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/regform</a>
+</div>
+
+
+
+    
+
+
+
+        
+            
+
+    
+
     <h4 class="name" id="listAttendees"><span class="type-signature"></span>listAttendees<span class="signature">(query)</span><span class="type-signature"></span></h4>
 
     
@@ -149,7 +302,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line181">line 181</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line220">line 220</a>
     </li></ul></dd>
     
 
@@ -500,7 +653,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="index.js.html">index.js</a>, <a href="index.js.html#line128">line 128</a>
+        <a href="index.js.html">index.js</a>, <a href="index.js.html#line167">line 167</a>
     </li></ul></dd>
     
 

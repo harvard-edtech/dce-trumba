@@ -16,6 +16,7 @@ import TrumbaEvent from '../types/TrumbaEvent';
 import TrumbaAttendee from '../types/TrumbaAttendee';
 import TrumbaRegistration from '../types/TrumbaRegistration';
 import TrumbaEventFilter from '../types/TrumbaEventFilter';
+import TrumbaRegistrationQuestion from '../types/TrumbaRegistrationQuestion';
 
 // Import shared constants
 import TRUMBA_CODE_MESSAGE_MAP from '../shared/constants/TRUMBA_CODE_MESSAGE_MAP';
@@ -39,11 +40,11 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
   const listEvents = async (
     webName: string,
     filter?: TrumbaEventFilter,
-  ) : Promise<TrumbaEvent[]> => {
+  ): Promise<TrumbaEvent[]> => {
 
     try {
       // destructuring filter
-      const { 
+      const {
         numEvents,
         eventIds,
         startDate,
@@ -124,6 +125,43 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
   };
 
   /**
+   * Gets registration form questions for an event on the calendar
+   * @author Yuen Ler Chow
+   * @instance
+   * @memberof api
+   * @method getRegistrationFormQuestions
+   * @param {number} eventId unique identifier for the event
+   * @returns a list of questions for the event's registration form {@link https://app.swaggerhub.com/apis-docs/Trumba/Trumba-Management-API/2.0#/Registration/regform}
+   */
+
+  const getRegistrationFormQuestions = async (eventId: number): Promise<TrumbaRegistrationQuestion[]> => {
+    try {
+      const { data } = await axios.get(
+        `https://www.trumba.com/api/v2/regform/${eventId}`,
+        { auth },
+      );
+      return data;
+    } catch (err) {
+      // Get response data
+      const responseData = (err as any)?.response?.data;
+      if (!responseData) {
+        // No information on the error
+        // (this is an unknown error)
+        throw new TrumbaError({
+          message: `An unknown error occurred: ${(err as any).message}`,
+          code: TrumbaErrorCode.UnknownError,
+        });
+      }
+
+      throw new TrumbaError({
+        message: responseData[responseData.length - 1].errorMessage,
+        code: TRUMBA_CODE_MESSAGE_MAP[responseData[responseData.length - 1]],
+      });
+    }
+  }
+
+
+  /**
    * Registers a user for an event on the calendar
    * @author Yuen Ler Chow
    * @instance
@@ -162,7 +200,9 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     try {
       // Send the request
       const { data } = await axios.put(
-        'https://www.trumba.com/api/v2/attendees', request, { auth },
+        'https://www.trumba.com/api/v2/attendees',
+        request,
+        { auth },
       );
       return data;
     } catch (err) {
@@ -246,6 +286,7 @@ const initTrumbaAPI = (auth: TrumbaAuth) => {
     listEvents,
     listAttendees,
     registerForEvent,
+    getRegistrationFormQuestions,
   };
 
   return trumbaAPI;
