@@ -3,7 +3,7 @@
  * @author Yuen Ler Chow
  */
 declare type TrumbaFormAnswer = {
-    fieldID: string;
+    fieldID: number;
     fieldValue: string;
 };
 export default TrumbaFormAnswer;
