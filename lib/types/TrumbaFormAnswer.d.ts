@@ -4,6 +4,6 @@
  */
 declare type TrumbaFormAnswer = {
     fieldID: number;
-    fieldValue: string;
+    fieldValue: string[];
 };
 export default TrumbaFormAnswer;
