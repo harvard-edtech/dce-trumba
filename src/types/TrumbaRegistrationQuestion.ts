@@ -1,3 +1,5 @@
+import RegistrationQuestionFieldType from "./RegistrationQuestionFieldType";
+
 /**
  * Trumba registration question for when registering for an event
  * @author Yuen Ler Chow
@@ -8,7 +10,7 @@ type TrumbaRegistrationQuestion = {
   // The question to present to the user.
   question: string,
   // The Type of Question. 0 - Single line of text, 1 - Multiple lines of text, 5 - List of choices
-  fieldType: number,
+  fieldType: RegistrationQuestionFieldType,
   // If true, the question is required.
   required: boolean,
   // The default answer(s) to the question. Multiple values in the array are used when setting the default on a multi-value list of choices fields.
