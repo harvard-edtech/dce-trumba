@@ -1,3 +1,7 @@
+/**
+ * Type for a specific registration question field
+ * @author Yuen Ler Chow
+ */
 declare enum RegistrationQuestionFieldType {
     ShortAnswer = 0,
     Multiline = 1,
