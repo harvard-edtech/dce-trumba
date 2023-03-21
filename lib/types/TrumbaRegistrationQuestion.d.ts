@@ -1,3 +1,4 @@
+import RegistrationQuestionFieldType from "./RegistrationQuestionFieldType";
 /**
  * Trumba registration question for when registering for an event
  * @author Yuen Ler Chow
@@ -5,7 +6,7 @@
 declare type TrumbaRegistrationQuestion = {
     fieldID: number;
     question: string;
-    fieldType: number;
+    fieldType: RegistrationQuestionFieldType;
     required: boolean;
     defaultValue: string[];
     allowedValues: string[];
